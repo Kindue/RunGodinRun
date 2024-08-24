@@ -1,14 +1,17 @@
 using UnityEngine;
+using System.Collections;
 
 public class Jugador : MonoBehaviour
 {
     private CharacterController personaje;
+    private ManejadorVida manejadorVida;
     private Vector3 direccion;
     public float gravedad = 9.81f * 2f;
     public float fuerzaSalto = 8f;
     private void Awake()
     {
         personaje = GetComponent<CharacterController>();
+        manejadorVida = FindObjectOfType<ManejadorVida>();
     }
 
     private void OnEnable()
@@ -37,7 +40,21 @@ public class Jugador : MonoBehaviour
     {
         if(otro.CompareTag("Obstaculo"))
         {
-            ManejadorJuego.Instancia.GameOver();
+            manejadorVida.ReducirVidas();
+            if(manejadorVida.ConsultarVidas() > 0){
+                StartCoroutine(Lastimarse());
+                ManejadorJuego.Instancia.ReducirVelocidadJuego();
+            }
         }
     }
+
+    IEnumerator Lastimarse()
+    {
+        Physics.IgnoreLayerCollision(6,8);
+        GetComponent<Animator>().SetLayerWeight(1, 1);
+        yield return new WaitForSeconds(3f);
+        GetComponent<Animator>().SetLayerWeight(1, 0);
+        Physics.IgnoreLayerCollision(6,8,false);
+    }
+    
 }

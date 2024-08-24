@@ -10,7 +10,6 @@ public class ManejadorJuego : MonoBehaviour
     public float velocidadJuegoInicial = 5f;
     public float velocidadJuegoIncremento = 0.1f;
     public float velocidadJuego {get; private set;}
-
     public TextMeshProUGUI gameOverTexto;
     public Button botonReintentar;
     public Button botonVolver;
@@ -19,8 +18,10 @@ public class ManejadorJuego : MonoBehaviour
     
     private Jugador jugador;
     private Generador generador;
+    private ManejadorVida manejadorVida;
 
     private float puntaje;
+    private float indiceDificultad = 100;
 
 
     private void Awake()
@@ -47,6 +48,7 @@ public class ManejadorJuego : MonoBehaviour
     {
         jugador = FindObjectOfType<Jugador>();
         generador = FindObjectOfType<Generador>();
+        manejadorVida = FindObjectOfType<ManejadorVida>();
         NuevoJuego();
     }
 
@@ -65,6 +67,8 @@ public class ManejadorJuego : MonoBehaviour
 
         jugador.gameObject.SetActive(true);
         generador.gameObject.SetActive(true);
+        manejadorVida.gameObject.SetActive(true);
+
 
         gameOverTexto.gameObject.SetActive(false);
         botonReintentar.gameObject.SetActive(false);
@@ -80,6 +84,7 @@ public class ManejadorJuego : MonoBehaviour
         enabled = false;
         jugador.gameObject.SetActive(false);
         generador.gameObject.SetActive(false);
+        manejadorVida.gameObject.SetActive(false);
 
         gameOverTexto.gameObject.SetActive(true);
         botonReintentar.gameObject.SetActive(true);
@@ -89,12 +94,28 @@ public class ManejadorJuego : MonoBehaviour
 
 
      }
+
+     public void ReducirVelocidadJuego()
+     {
+         velocidadJuego /= 1.3f;
+     }
      
     private void Update()
     {
         velocidadJuego += velocidadJuegoIncremento * Time.deltaTime;
+        ActualizarPuntaje();
+        manejadorVida.ChequeoVidas();
+    }
+
+    public void ActualizarPuntaje()
+    {
         puntaje += velocidadJuego * Time.deltaTime;
         puntajeTexto.text = Mathf.FloorToInt(puntaje).ToString("D5");
+        if(puntaje / indiceDificultad >= 1f)
+        {
+            manejadorVida.AumentarVidas();
+            indiceDificultad *= 1.5f;
+        }
     }
 
     public void ActualizarPuntajeAlto()
