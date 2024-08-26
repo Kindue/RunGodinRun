@@ -21,7 +21,7 @@ public class ManejadorJuego : MonoBehaviour
     private ManejadorVida manejadorVida;
 
     private float puntaje;
-    private float indiceDificultad = 100;
+    private float indiceDificultad = 500;
 
 
     private void Awake()
@@ -114,7 +114,7 @@ public class ManejadorJuego : MonoBehaviour
         if(puntaje / indiceDificultad >= 1f)
         {
             manejadorVida.AumentarVidas();
-            indiceDificultad *= 1.5f;
+            indiceDificultad *= 1.35f;
         }
     }
 
