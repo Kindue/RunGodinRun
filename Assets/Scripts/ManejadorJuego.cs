@@ -21,8 +21,8 @@ public class ManejadorJuego : MonoBehaviour
     private ManejadorVida manejadorVida;
 
     private float puntaje;
-    private float indiceDificultad = 500;
 
+    [SerializeField] private AudioClip sonidoGameOver;
 
     private void Awake()
     {
@@ -55,10 +55,16 @@ public class ManejadorJuego : MonoBehaviour
     public void NuevoJuego()
     {
         Obstaculo[] obstaculos = FindObjectsOfType<Obstaculo>();
+        Powerup[] powerups = FindObjectsOfType<Powerup>();
 
         foreach(var obstaculo in obstaculos)
         {
             Destroy(obstaculo.gameObject);
+        }
+
+        foreach(var powerup in powerups)
+        {
+            Destroy(powerup.gameObject);
         }
 
         puntaje = 0f;
@@ -86,6 +92,7 @@ public class ManejadorJuego : MonoBehaviour
         generador.gameObject.SetActive(false);
         manejadorVida.gameObject.SetActive(false);
 
+        ManejadorSFX.Instancia.ReproducirSFX(sonidoGameOver);
         gameOverTexto.gameObject.SetActive(true);
         botonReintentar.gameObject.SetActive(true);
         botonVolver.gameObject.SetActive(true);
@@ -97,7 +104,7 @@ public class ManejadorJuego : MonoBehaviour
 
      public void ReducirVelocidadJuego()
      {
-         velocidadJuego /= 1.3f;
+         velocidadJuego /= 1.2f;
      }
      
     private void Update()
@@ -111,11 +118,11 @@ public class ManejadorJuego : MonoBehaviour
     {
         puntaje += velocidadJuego * Time.deltaTime;
         puntajeTexto.text = Mathf.FloorToInt(puntaje).ToString("D5");
-        if(puntaje / indiceDificultad >= 1f)
-        {
-            manejadorVida.AumentarVidas();
-            indiceDificultad *= 1.35f;
-        }
+    }
+
+    public void AumentarPuntos(float puntos)
+    {
+        puntaje += puntos;
     }
 
     public void ActualizarPuntajeAlto()

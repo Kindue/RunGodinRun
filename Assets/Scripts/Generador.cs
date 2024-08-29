@@ -11,14 +11,19 @@ public class Generador : MonoBehaviour
         public float chanceGenerar;
     }
 
-    public ObjetoGenerable[] objetos;
+    public ObjetoGenerable[] obstaculos;
+    public ObjetoGenerable[] powerups;
+    private bool genero = false;
+    
 
     public float indiceMinGenerador = 1f;
-    public float indiceMaxGenerador = 2f;
+    public float indiceMaxGeneradorObstaculo = 2f;
+    public float indiceMaxGeneradorPowerup = 3f;
 
     private void OnEnable()
     {
-        Invoke(nameof(Generar), Random.Range(indiceMinGenerador, indiceMaxGenerador));
+        Invoke(nameof(GenerarObstaculo), Random.Range(indiceMinGenerador, indiceMaxGeneradorObstaculo));
+        Invoke(nameof(GenerarPowerup), Random.Range(indiceMinGenerador, indiceMaxGeneradorPowerup));
     }
 
     private void OnDisable()
@@ -26,21 +31,45 @@ public class Generador : MonoBehaviour
         CancelInvoke();
     }
 
-    private void Generar()
+    private void GenerarObstaculo()
     {
-        float chanceGenerar = Random.value;
+        float chanceGenerarObstaculo = Random.value;
 
-        foreach (var obj in objetos)
+        foreach (var obj in obstaculos)
         {
-            if(chanceGenerar < obj.chanceGenerar)
+            if(chanceGenerarObstaculo < obj.chanceGenerar)
             {
                 GameObject obstaculo = Instantiate(obj.prefabricable);
                 obstaculo.transform.position += transform.position;
+                genero = true;
                 break;
             }
-            chanceGenerar -= obj.chanceGenerar;
+            chanceGenerarObstaculo -= obj.chanceGenerar;
         }
 
-        Invoke(nameof(Generar), Random.Range(indiceMinGenerador, indiceMaxGenerador));
+        Invoke(nameof(GenerarObstaculo), Random.Range(indiceMinGenerador, indiceMaxGeneradorObstaculo));
+    }
+
+    private void GenerarPowerup()
+    {
+        float chanceGenerarPowerup = Random.value;
+
+        foreach (var obj in powerups)
+        {
+            if(chanceGenerarPowerup < obj.chanceGenerar)
+            {
+                GameObject powerup = Instantiate(obj.prefabricable);
+                powerup.transform.position += transform.position;
+                if(genero)
+                {
+                    powerup.transform.position += transform.position + Vector3.up * 1.5f;
+                    genero = false;
+                }
+                break;
+            }
+            chanceGenerarPowerup -= obj.chanceGenerar;
+        }
+
+        Invoke(nameof(GenerarPowerup), Random.Range(indiceMinGenerador, indiceMaxGeneradorPowerup));
     }
 }

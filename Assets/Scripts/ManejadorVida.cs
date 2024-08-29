@@ -5,6 +5,12 @@ public class ManejadorVida : MonoBehaviour
 {
     public static int Vidas = 3;
     public Image[] Corazones;
+    public Jugador jugador;
+
+    private void Start()
+    {
+        jugador = FindObjectOfType<Jugador>();
+    }
 
     public void ChequeoVidas()
     {
@@ -21,8 +27,10 @@ public class ManejadorVida : MonoBehaviour
     }
 
     public void ReducirVidas(){
-        Vidas--;
-        Corazones[Vidas].enabled = false;
+        if(!jugador.invulnerable){
+            Vidas--;
+            Corazones[Vidas].enabled = false;
+        }
     }
 
     public void ReiniciarVidas(){

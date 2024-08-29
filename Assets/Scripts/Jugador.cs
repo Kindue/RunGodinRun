@@ -8,6 +8,9 @@ public class Jugador : MonoBehaviour
     private Vector3 direccion;
     public float gravedad = 9.81f * 2f;
     public float fuerzaSalto = 8f;
+    public bool invulnerable = false;
+    [SerializeField] private AudioClip sonidoSalto;
+    [SerializeField] private AudioClip sonidoColision;
     private void Awake()
     {
         personaje = GetComponent<CharacterController>();
@@ -29,6 +32,7 @@ public class Jugador : MonoBehaviour
             direccion = Vector3.down;
             if(Input.GetButton("Jump") || Input.touchCount > 0)
             {
+                ManejadorSFX.Instancia.ReproducirSFX(sonidoSalto);
                 direccion = Vector3.up * fuerzaSalto;
             }
         }
@@ -40,21 +44,34 @@ public class Jugador : MonoBehaviour
     {
         if(otro.CompareTag("Obstaculo"))
         {
-            manejadorVida.ReducirVidas();
-            if(manejadorVida.ConsultarVidas() > 0){
-                StartCoroutine(Lastimarse());
-                ManejadorJuego.Instancia.ReducirVelocidadJuego();
+            if(!invulnerable){
+                ManejadorSFX.Instancia.ReproducirSFX(sonidoColision);
+                manejadorVida.ReducirVidas();
+                if(manejadorVida.ConsultarVidas() > 0){
+                    StartCoroutine(Invulnerabilidad(3f));
+                    ManejadorJuego.Instancia.ReducirVelocidadJuego();
+                }
             }
+        }
+        if(otro.CompareTag("Powerup"))
+        {
+            otro.GetComponent<Powerup>().ActivarEfecto();
         }
     }
 
-    IEnumerator Lastimarse()
+    public void InvulnerabilidadAux(float cant)
     {
-        Physics.IgnoreLayerCollision(6,8);
+        StartCoroutine(Invulnerabilidad(cant));
+    }
+
+    public IEnumerator Invulnerabilidad(float cant)
+    {
+        Physics.IgnoreLayerCollision(7,8);
         GetComponent<Animator>().SetLayerWeight(1, 1);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(cant);
+        invulnerable = false;
         GetComponent<Animator>().SetLayerWeight(1, 0);
-        Physics.IgnoreLayerCollision(6,8,false);
+        Physics.IgnoreLayerCollision(7,8,false);
     }
     
 }

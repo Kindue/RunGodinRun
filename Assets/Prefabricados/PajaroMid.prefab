@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7716069099756980921}
   - component: {fileID: 8413579807922663977}
   m_Layer: 8
-  m_Name: Pajaro
+  m_Name: PajaroMid
   m_TagString: Obstaculo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
