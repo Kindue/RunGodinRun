@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1196119574439809638}
   - component: {fileID: 6685309642549006368}
   - component: {fileID: -2238034065442981276}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: PicoOrnitorrincoPowerup
   m_TagString: Powerup
   m_Icon: {fileID: 0}
@@ -119,4 +119,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae47b457f7d04a04187ac7f7f687284b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chanceGenerar: 0
+  sonidoPowerup: {fileID: 8300000, guid: c392c6dd2cc7b64409de3fbf35f1aa79, type: 3}

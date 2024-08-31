@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8490888735465106729}
   - component: {fileID: 1137251667432934007}
   - component: {fileID: -4107535911197558287}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: FishPowerup
   m_TagString: Powerup
   m_Icon: {fileID: 0}
@@ -119,4 +119,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5c4c33ac1427c41b62fff67fa82c59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chanceGenerar: 0
+  sonidoPowerup: {fileID: 8300000, guid: c392c6dd2cc7b64409de3fbf35f1aa79, type: 3}

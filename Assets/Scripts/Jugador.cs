@@ -66,12 +66,12 @@ public class Jugador : MonoBehaviour
 
     public IEnumerator Invulnerabilidad(float cant)
     {
-        Physics.IgnoreLayerCollision(7,8);
+        Physics.IgnoreLayerCollision(8,9);
         GetComponent<Animator>().SetLayerWeight(1, 1);
         yield return new WaitForSeconds(cant);
         invulnerable = false;
         GetComponent<Animator>().SetLayerWeight(1, 0);
-        Physics.IgnoreLayerCollision(7,8,false);
+        Physics.IgnoreLayerCollision(8,9,false);
     }
     
 }

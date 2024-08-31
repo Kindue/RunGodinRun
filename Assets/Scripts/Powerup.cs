@@ -3,8 +3,7 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     protected float bordeIzquierdo;
-    [Range(0f, 1f)]
-    public float chanceGenerar;
+    [SerializeField] protected AudioClip sonidoPowerup;
 
     protected void Start()
     {

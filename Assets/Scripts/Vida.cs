@@ -13,6 +13,7 @@ public class Vida : Powerup
     {
         if(manejadorVida.ConsultarVidas() < 3)
         {
+            ManejadorSFX.Instancia.ReproducirSFX(sonidoPowerup);
             Destroy(gameObject);
         }
         manejadorVida.AumentarVidas();

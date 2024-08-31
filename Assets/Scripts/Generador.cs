@@ -13,17 +13,21 @@ public class Generador : MonoBehaviour
 
     public ObjetoGenerable[] obstaculos;
     public ObjetoGenerable[] powerups;
+    public ObjetoGenerable[] decoraciones;
     private bool genero = false;
     
 
     public float indiceMinGenerador = 1f;
     public float indiceMaxGeneradorObstaculo = 2f;
     public float indiceMaxGeneradorPowerup = 3f;
+    public float indiceMinGeneradorDecoracion = 10f;
+    public float indiceMaxGeneradorDecoracion = 12f;
 
     private void OnEnable()
     {
         Invoke(nameof(GenerarObstaculo), Random.Range(indiceMinGenerador, indiceMaxGeneradorObstaculo));
         Invoke(nameof(GenerarPowerup), Random.Range(indiceMinGenerador, indiceMaxGeneradorPowerup));
+        Invoke(nameof(GenerarDecoracion), Random.Range(indiceMinGeneradorDecoracion, indiceMaxGeneradorDecoracion));
     }
 
     private void OnDisable()
@@ -71,5 +75,24 @@ public class Generador : MonoBehaviour
         }
 
         Invoke(nameof(GenerarPowerup), Random.Range(indiceMinGenerador, indiceMaxGeneradorPowerup));
+    }
+
+    private void GenerarDecoracion()
+    {
+        float chanceGenerarDecoracion = Random.value;
+
+        foreach (var obj in decoraciones)
+        {
+            if(chanceGenerarDecoracion < obj.chanceGenerar)
+            {
+                float ubicacion = Random.Range(3f, 5f);
+                GameObject decoracion = Instantiate(obj.prefabricable);
+                decoracion.transform.position += transform.position + Vector3.up * ubicacion;
+                break;
+            }
+            chanceGenerarDecoracion -= obj.chanceGenerar;
+        }
+
+        Invoke(nameof(GenerarDecoracion), Random.Range(indiceMinGeneradorDecoracion, indiceMaxGeneradorDecoracion));
     }
 }

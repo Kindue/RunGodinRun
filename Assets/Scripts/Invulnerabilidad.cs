@@ -14,6 +14,7 @@ public class Invulnerabilidad : Powerup
     {
         if(!jugador.invulnerable){
             jugador.invulnerable = true;
+            ManejadorSFX.Instancia.ReproducirSFX(sonidoPowerup);
             Destroy(gameObject);
             jugador.InvulnerabilidadAux(duracion);
         }

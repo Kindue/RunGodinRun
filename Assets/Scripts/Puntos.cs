@@ -4,6 +4,7 @@ public class Puntos : Powerup
 
     public override void ActivarEfecto()
     {
+        ManejadorSFX.Instancia.ReproducirSFX(sonidoPowerup);
         ManejadorJuego.Instancia.AumentarPuntos(cantidadPuntos);
         Destroy(gameObject);
     }
