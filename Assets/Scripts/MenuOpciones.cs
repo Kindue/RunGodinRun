@@ -12,7 +12,7 @@ public class MenuOpciones : MonoBehaviour
 
     public void Creditos()
     {
-
+        SceneManager.LoadScene("Creditos");
     }
 
     public void Volumen()

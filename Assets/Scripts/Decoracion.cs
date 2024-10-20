@@ -6,15 +6,28 @@ public class Decoracion : MonoBehaviour
 {
     private float bordeIzquierdo;
     private ManejadorFondo manejadorFondo;
+    private float indiceVelocidadFondo;
+    private float vJuego;
 
     private void Start()
     {
         bordeIzquierdo = Camera.main.ScreenToWorldPoint(Vector3.zero).x - 2f;
         manejadorFondo = FindObjectOfType<ManejadorFondo>();
+        indiceVelocidadFondo = manejadorFondo.ConsultarIndiceVelocidad();
+
     }
     private void Update()
     {
-        transform.position += Vector3.left * (manejadorFondo.ConsultarVelocidad()+ 0.5f) * Time.deltaTime;
+        vJuego = ManejadorJuego.Instancia.velocidadJuego;
+        if(vJuego > 0)
+        {
+            transform.position += Vector3.left * ((vJuego / indiceVelocidadFondo)+ 0.5f) * Time.deltaTime;
+        }
+        else
+        {
+            transform.position += Vector3.left * (vJuego / indiceVelocidadFondo) * Time.deltaTime;
+
+        }
         if(transform.position.x < bordeIzquierdo)
         {
             Destroy(gameObject);

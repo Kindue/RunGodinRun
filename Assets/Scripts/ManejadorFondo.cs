@@ -17,8 +17,8 @@ public class ManejadorFondo : MonoBehaviour
         meshRenderer.material.mainTextureOffset += Vector2.right * velocidad * Time.deltaTime;
     }
 
-    public float ConsultarVelocidad()
+    public float ConsultarIndiceVelocidad()
     {
-        return velocidad;
+        return indiceVelocidadFondo;
     }
 }

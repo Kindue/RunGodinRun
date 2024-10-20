@@ -23,6 +23,7 @@ public class ManejadorJuego : MonoBehaviour
     private float puntaje;
 
     [SerializeField] private AudioClip sonidoGameOver;
+    [SerializeField] private AudioClip sonidoMusica;
 
     private void Awake()
     {
@@ -56,6 +57,7 @@ public class ManejadorJuego : MonoBehaviour
     {
         Obstaculo[] obstaculos = FindObjectsOfType<Obstaculo>();
         Powerup[] powerups = FindObjectsOfType<Powerup>();
+        Decoracion[] decoraciones = FindObjectsOfType<Decoracion>();
 
         foreach(var obstaculo in obstaculos)
         {
@@ -65,6 +67,11 @@ public class ManejadorJuego : MonoBehaviour
         foreach(var powerup in powerups)
         {
             Destroy(powerup.gameObject);
+        }
+
+        foreach(var decoracion in decoraciones)
+        {
+            Destroy(decoracion.gameObject);
         }
 
         puntaje = 0f;

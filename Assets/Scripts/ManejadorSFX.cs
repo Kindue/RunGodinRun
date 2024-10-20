@@ -1,4 +1,5 @@
 
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ManejadorSFX : MonoBehaviour
@@ -6,6 +7,7 @@ public class ManejadorSFX : MonoBehaviour
     public static ManejadorSFX Instancia {get; private set;}
 
     [SerializeField] private AudioSource objetoSFX;
+    [SerializeField] private AudioSource objetoMusica;
 
     public void Awake()
     {
@@ -27,6 +29,11 @@ public class ManejadorSFX : MonoBehaviour
         }
     }
 
+    public void Start()
+    {
+        ReproducirMusica(objetoMusica.clip);
+    }
+
     public void ReproducirSFX(AudioClip audioClip)
     {
         AudioSource audioSource = Instantiate(objetoSFX);
@@ -39,4 +46,13 @@ public class ManejadorSFX : MonoBehaviour
 
         Destroy(audioSource.gameObject, duracion);
     }
+
+    public void ReproducirMusica(AudioClip audioClip)
+    {
+        AudioSource audioSource = Instantiate(objetoMusica);
+        audioSource.clip = audioClip;
+        audioSource.Play();
+    }
+
+
 }
